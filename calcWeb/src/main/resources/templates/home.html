@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Web Calculator</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="calc">
+
+    <select class="form-control" id="dropDownList">
+        <option value="0">History</option>
+        <option th:each="option : ${allHistory}" th:value="${option}" th:text="${option}"></option>
+    </select>
+    <form action="/clean">
+        <button>Clean history</button>
+    </form>
+    <form action="/guide">
+        <button>Guide</button>
+    </form>
+
+    <div class="calc-screen">
+        <p class="p1">0.0</p>
+        <p id="rez" class="p2" th:text="${result}"></p>
+    </div>
+    <div class="inputX">
+        <label for="inX">x = </label> <input class="inX" id="inX" type="text" name="inX" value="1.0">
+    </div>
+    <div class="buttons">
+        <button class="btn ac bg-black">AC</button>
+        <button class="btn del bg-black"><-</button>
+        <button class="btn sin bg-black">sin</button>
+        <button class="btn cos bg-black">cos</button>
+        <button class="btn tan bg-black">tan</button>
+        <button class="btn atan bg-black">atan</button>
+        <button class="btn acos bg-black">acos</button>
+        <button class="btn asin bg-black">asin</button>
+        <button class="btn br1 bg-black">(</button>
+        <button class="btn br2 bg-black">)</button>
+        <button class="btn div bg-black">/</button>
+        <button class="btn log bg-black">log</button>
+        <button class="btn ln bg-black">ln</button>
+        <button class="btn ss bg-white">7</button>
+        <button class="btn ee bg-white">8</button>
+        <button class="btn nn bg-white">9</button>
+        <button class="btn mul bg-black">*</button>
+        <button class="btn sqrt bg-black">sqrt</button>
+        <button class="btn x bg-black">x</button>
+        <button class="btn ff bg-white">4</button>
+        <button class="btn five bg-white">5</button>
+        <button class="btn six bg-white">6</button>
+        <button class="btn plus bg-black">+</button>
+        <button class="btn eee bg-black">e</button>
+        <button class="btn pi bg-black">pi</button>
+        <button class="btn one bg-white">1</button>
+        <button class="btn two bg-white">2</button>
+        <button class="btn thr bg-white">3</button>
+        <button class="btn minus bg-black">-</button>
+        <button class="btn mod bg-black">mod</button>
+        <button class="btn pow bg-black">^</button>
+        <button class="btn dot bg-white">.</button>
+        <button class="btn zero bg-white">0</button>
+        <form action="/graph">
+            <input id="gr" type="hidden" name="calcStr" value="">
+            <button class="btn graph bg-black" href="/graph">graph</button>
+        </form>
+        <form action="/calculate">
+            <input id="ff" type="hidden" name="calcStr" value="">
+            <button class="btn eq bg-black" type="submit">=</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    let a = '';
+    const out = document.querySelector('.p1');
+    const outRez = document.querySelector('.p2');
+
+    function clearAll() {
+        a = '';
+        out.textContent = "0.0";
+        outRez.textContent = "0.0";
+    }
+
+    if (outRez === null || outRez.textContent === null || outRez.textContent.length === 0) {
+    outRez.textContent = "0.0";
+    }
+
+    document.querySelector('.buttons').onclick = (event) => {
+        if(!event.target.classList.contains('btn')) return;
+
+        if(event.target.classList.contains('ac')) {
+          clearAll();
+        } else if (event.target.classList.contains('eq')) {
+            var str = out.textContent;
+            var xStr = document.getElementById('inX').value;
+            var replaceSrt = str.replace(/x/gi, xStr);
+            document.getElementById('ff').setAttribute('value', replaceSrt);
+        } else if (event.target.classList.contains('graph')) {
+            var str = out.textContent;
+            document.getElementById('gr').setAttribute('value', str);
+        } else if (event.target.classList.contains('del')) {
+            if (a.length - 1 === 0) {
+                clearAll();
+            } else {
+                a = a.substring(0, a.length - 1);
+                out.textContent = a;
+            }
+        } else if(event.target.classList.contains('pi')) {
+            out.textContent = '';
+            a += 3.14159265;
+            out.textContent += a;
+        } else if(event.target.classList.contains('eee')) {
+            out.textContent = '';
+            a += 2.71828183;
+            out.textContent += a;
+        } else {
+          const key = event.target.textContent;
+          out.textContent = '';
+          a += key;
+          out.textContent += a;
+        }
+    }
+</script>
+
+</body>
+</html>

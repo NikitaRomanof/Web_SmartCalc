@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5" >
+  <input id="inp" type="hidden" name="calcStr" th:value="${calcStr}">
+
+
+  <form th:action="@{/build}" method="post" >
+    <input id="gr" type="hidden" name="outStr" value="">
+
+    <label for="minX" class="form-label">Min x</label>
+    <input class="form-control" name="minX" type="text" id="minX" value="-30.0"><br />
+
+    <label for="maxX" class="form-label">Max x</label>
+    <input class="form-control" name="maxX" type="text" id="maxX" value="30.0"><br />
+
+    <label for="step" class="form-label">Step</label>
+    <input class="form-control" name="step" type="text" id="step" value="0.5"><br />
+    <p></p>
+
+    <button class="btn btn-primary" onclick="press()" type="submit" id="btn">Add</button>
+  </form>
+
+</div>
+
+
+<script>
+    btn.onclick = function() {
+    var outRez = document.getElementById('inp').value;
+    document.getElementById('gr').setAttribute('value', outRez);
+  };
+</script>
+</body>
+</html>
